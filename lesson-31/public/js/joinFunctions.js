@@ -12,15 +12,18 @@ $(document).ready(() => {
    */
   const socket = io();
 
+  
+  
+
   $("#chat-form").submit(() => {
-    // Lesson 31.1 (p. 450)
-    // Lesson 31.4 (p. 452)
-    // Lesson 31.7 (p. 455)
+    let text = $("#chat-input").val(); // Lesson 31.1 (p. 450)
+    let userId = $("#chat-user-id").val(); // Lesson 31.4 (p. 452)
+    let userFullName = $("#chat-user-full-name").val(); // Lesson 31.7 (p. 455)
     let username = $("#chat-username").val();
     socket.emit("message", {
-      // Lesson 31.1 (p. 450)
-      // Lesson 31.4 (p. 452)
-      // Lesson 31.7 (p. 455)
+      content: text, // Lesson 31.1 (p. 450)
+      userId: userId, // Lesson 31.4 (p. 452)
+      fullName: userFullName, // Lesson 31.7 (p. 455)
       username: username,
     });
     $("#chat-input").val("");
@@ -32,9 +35,12 @@ $(document).ready(() => {
    * 최근 메시지 표시
    */
 
-  socket.on("message", (message) => {
-    displayMessage(message);
+  socket.on("load all messages", (data) => {
+    data.forEach((message) => {
+      displayMessage(message);
+    });
   });
+
 
   $("#modal-button").click(() => {
     $(".modal-body").html("");
@@ -144,3 +150,17 @@ let addJoinButtonListener = () => {
  * Listing 31.6 (p. 454)
  * 채팅 폼으로부터 hidden field 값 끌어오기
  */
+let displayMessage = (message) => {
+  $("#chat").prepend(
+    $("<li>").html(
+      `<strong class="message ${getCurrentUserClass(message.userId)}">
+      ${message.userFullName || message.username || "Anonymous"}
+      </strong>: ${message.content}`
+    )
+  );
+};
+
+let getCurrentUserClass = (id) => {
+  let userId = $("#chat-user-id").val();
+  return userId === id ? "current-user" : "";
+};
