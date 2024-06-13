@@ -96,19 +96,16 @@ app.use((req, res, next) => {
  */
 
 // 애플리케이션에 Mongoose 설정
-const mongoose = require("mongoose"), // mongoose를 요청
-  dbName = "aaronkr";
-
-// 데이터베이스 연결 설정
-mongoose.connect(`mongodb://127.0.0.1:27017/${dbName}`, {
-  useNewUrlParser: true,
-});
-
-// 연결되면 메시지를 보냄
+const mongoose = require("mongoose");
+mongoose.connect(
+  "mongodb+srv://lim021298:ERBJYBO43EvfIngF@ut-node.z7jjt1w.mongodb.net/?retryWrites=true&w=majority&appName=ut-node",
+  {}
+);
 const db = mongoose.connection;
 db.once("open", () => {
-  console.log(`Connected to ${dbName} MongoDB using Mongoose!`);
+  console.log("Connect to MONGODB!!!");
 });
+
 
 /**
  * =====================================================================
@@ -175,3 +172,5 @@ const server = app.listen(app.get("port"), () => {
 });
 // Lesson 30 - socket.io를 사용하기 위한 서버 객체 설정
 // Lesson 30 - 채팅 컨트롤러를 요청하고 서버 객체를 전달
+const io = require("socket.io")(server);
+require("./controllers/chatController")(io);

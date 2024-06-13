@@ -24,8 +24,10 @@ module.exports = {
       title: "Transportation",
     });
   },
-  /**
-   * Listing 30.2
-   * chat 액션 추가
-   */
+  chat: (req, res) => {
+    res.render("chat", {
+      page: "chat",
+      title: "Chat",
+    });
+  },
 };
