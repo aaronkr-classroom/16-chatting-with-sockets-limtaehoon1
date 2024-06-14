@@ -28,7 +28,11 @@ module.exports = (io) => {
       });
 
     // Lesson 32.1 (p. 464)
-
+    socket.on("disconnect", () =>{
+      console.log("User disconnected ! ");
+      socket.broadcast.emit("User disconnected !")
+      // $(".chat-icon").animate({opacity:0.1},500).animate({opacity:1},500)
+    })
     /**
      * Listing 31.2 (p. 451)
      */
